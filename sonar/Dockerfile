@@ -14,4 +14,4 @@ RUN wget -O /opt/sonarqube/extensions/plugins/sonar-ldap-plugin-1.4.jar http://r
 
 EXPOSE 9000
 
-CMD ["/opt/sonar/bin/linux-x86-64/sonar.sh", "console"]
+CMD ["/opt/sonarqube/bin/linux-x86-64/sonar.sh", "console"]
