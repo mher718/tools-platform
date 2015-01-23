@@ -12,4 +12,4 @@ RUN wget -O /opt/artifactory/tomcat/lib/mysql-connector-java-5.1.34.jar http://r
 
 EXPOSE 8081
 
-CMD ["/bin/bash", "/opt/artifactory/bin/artifactory.sh"]
+CMD ["/bin/bash", "/opt/artifactory/bin/artifactory.sh", "start"]
