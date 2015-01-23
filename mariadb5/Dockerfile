@@ -2,7 +2,7 @@ FROM otechlabs/base
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update -qq ; \
-    apt-get install -y mariadb-server
+    apt-get install -y --no-install-recommends mariadb-server
 
 ADD my.cnf /etc/mysql/conf.d/my.cnf
 RUN chmod 664 /etc/mysql/conf.d/my.cnf
