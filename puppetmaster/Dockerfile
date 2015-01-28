@@ -4,7 +4,7 @@ RUN apt-get -qq update ; \
     wget http://apt.puppetlabs.com/puppetlabs-release-trusty.deb ; \
     dpkg -i puppetlabs-release-trusty.deb ; \
     apt-get -qq update ; \
-    apt-get -y --no-install-recommends puppet ; \
+    apt-get install -y --no-install-recommends puppet ; \
     rm puppetlabs-release-trusty.deb
 
 RUN wget https://forgeapi.puppetlabs.com/v3/files/puppetlabs-stdlib-3.2.1.tar.gz ; \
