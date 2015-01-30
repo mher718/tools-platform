@@ -29,7 +29,7 @@ RUN update-alternatives --install /usr/bin/java java /opt/jdk/jdk1.7.0_67/bin/ja
     update-alternatives --install /usr/bin/javac javac /opt/jdk/jdk1.7.0_67/bin/javac 100
 
 # Maven 3.1.1
-RUN wget -O - http://www.motorlogy.com/apache/maven/maven-3/3.1.1/binaries/apache-maven-3.1.1-bin.tar.gz ; \
+RUN wget http://www.motorlogy.com/apache/maven/maven-3/3.1.1/binaries/apache-maven-3.1.1-bin.tar.gz ; \
     tar -zxf apache-maven-3.1.1-bin.tar.gz -C /opt/ ; \
     ln -s /opt/apache-maven-3.1.1/bin/mvn /usr/local/bin/mvn ; \
     rm -f apache-maven-3.1.1-bin.tar.gz
