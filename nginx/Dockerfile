@@ -6,7 +6,7 @@ RUN echo "deb http://nginx.org/packages/mainline/ubuntu/ trusty nginx" >> /etc/a
 RUN wget http://nginx.org/keys/nginx_signing.key && \
     apt-key add nginx_signing.key
 
-RUN apt-get update -qq ; \
+RUN apt-get update -qq && \
     apt-get install -y --no-install-recommends nginx
 
 RUN echo "\ndaemon off;" >> /etc/nginx/nginx.conf
