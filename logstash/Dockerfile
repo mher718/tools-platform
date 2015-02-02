@@ -3,7 +3,7 @@ FROM otechlabs/base
 MANTAINER Oleksandr Bezpalko <obezpalko@gmail.com>
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV APT_INSTALL "apt-get install -y -qq --no-install-recommends"
+ENV APT_INSTALL apt-get install -y -qq --no-install-recommends
 ENV LOGSTASH 1.4.2-1-2c0f5a1_all
 
 RUN ${APT_INSTALL} software-properties-common && \
