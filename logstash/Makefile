@@ -17,14 +17,14 @@ $(IMAGE): Dockerfile
 run:
 	@sudo docker run -d -P \
 		--name=$(shell sed '/TARGET_IMAGE_NAME/!d; s/^.*TARGET_IMAGE_NAME \([^:]*\):.*$$/\1/' Dockerfile ) \
-		-v ~obezpalko/docker_data/logstash/etc/logstash:/etc/logstash \
-		-v ~obezpalko/docker_data/logstash/log:/var/log/logstash \
+		-v /var/container_data/logstash/etc/logstash:/etc/logstash \
+		-v /var/container_data/logstash/log:/var/log/logstash \
 		$(AUTHOR)/$(PROJECT) > $(RUNNED)
 
 run_bash:
 	@sudo docker run -it -P \
-		-v ~obezpalko/docker_data/logstash/etc/logstash:/etc/logstash \
-		-v ~obezpalko/docker_data/logstash/log:/var/log/logstash \
+		-v /var/container_data/logstash/etc/logstash:/etc/logstash \
+		-v /var/container_data/logstash/log:/var/log/logstash \
 		$(AUTHOR)/$(PROJECT) \
 		/bin/bash
 
