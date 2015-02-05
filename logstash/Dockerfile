@@ -13,7 +13,7 @@ RUN  /usr/bin/dpkg -i /opt/downloads/${LOGSTASH}.deb && \
     /bin/gzip -d /etc/GeoLiteCity.dat && \
     rm /opt/downloads/${LOGSTASH}.deb
 
-VOLUME ["/var/log/logstash", "/etc/logstash"]
+VOLUME ["/etc/logstash"]
 
 WORKDIR /etc/logstash
 EXPOSE 514/tcp 514/udp
