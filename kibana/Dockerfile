@@ -27,9 +27,10 @@ RUN echo '#' > ${KIBANA_VHOST} && \
     /bin/tar -C /home/kibana -xzf /opt/downloads/${KIBANA}.tar.gz && \
     mv /home/kibana/${KIBANA} /home/kibana/html && \
     chown -R kibana:www-data /home/kibana/html && \
+    sed -i 's#^\(\s*elasticsearch: \).*$#\1"http://elasticsearch.otlabs.fr:9200",#g' /home/kibana/html/config.js && \
     /usr/sbin/apache2ctl configtest
 
-VOLUME ["/home/kibana/html"]
+VOLUME ["/home/kibana"]
 
 EXPOSE 80/tcp
 
