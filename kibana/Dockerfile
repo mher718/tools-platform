@@ -30,7 +30,7 @@ RUN echo '#' > ${KIBANA_VHOST} && \
     sed -i 's#^\(\s*elasticsearch: \).*$#\1"http://elasticsearch.otlabs.fr:9200",#g' /home/kibana/html/config.js && \
     /usr/sbin/apache2ctl configtest
 
-VOLUME ["/home/kibana"]
+VOLUME ["/home/kibana/html/config.js"]
 
 EXPOSE 80/tcp
 
