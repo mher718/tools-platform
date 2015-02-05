@@ -29,8 +29,7 @@ RUN echo '#' > ${KIBANA_VHOST} && \
     chown -R kibana:www-data /home/kibana/html && \
     /usr/sbin/apache2ctl configtest
 
-
-VOLUME ["/home/kibana/html""]
+VOLUME ["/home/kibana/html"]
 
 EXPOSE 80/tcp
 
