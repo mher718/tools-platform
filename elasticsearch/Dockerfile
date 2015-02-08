@@ -1,4 +1,4 @@
-FROM otechlabs/java7
+FROM otechlabs/elasticsearch_base
 
 MANTAINER Oleksandr Bezpalko <obezpalko@gmail.com>
 
