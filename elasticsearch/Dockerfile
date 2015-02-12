@@ -1,6 +1,6 @@
 FROM otechlabs/java7
 
-MANTAINER Oleksandr Bezpalko <obezpalko@gmail.com>
+MAINTAINER Oleksandr Bezpalko <obezpalko@gmail.com>
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV APT_INSTALL apt-get install -y -qq --no-install-recommends
