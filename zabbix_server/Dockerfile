@@ -26,7 +26,8 @@ RUN mkdir -p     /var/run/zabbix /etc/zabbix/zabbix_server.conf.d /etc/zabbix/sc
 
 RUN sed -i '/^#/d; /^$/d; /^DB/d' /etc/zabbix/zabbix_server.conf
 
-EXPOSE 10050 2812
-VOLUME ["/etc/monitr", "/etc/zabbix/zabbix_server.conf", "/etc/zabbix/zabbix_server.conf.d", "/etc/zabbix/scripts"]
+EXPOSE 10051 2812
+#VOLUME ["/etc/monitrc", "/etc/zabbix/zabbix_server.conf", "/etc/zabbix/zabbix_server.conf.d", "/etc/zabbix/scripts"]
+VOLUME ["/etc/monitrc"]
 
 CMD ["/usr/bin/monit", "-I", "-c/etc/monitrc" ]
