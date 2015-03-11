@@ -3,6 +3,9 @@ FROM otechlabs/jenkins-base
 ENV JENKINS_VERSION 1.602
 ENV JENKINS_HOME /home/jenkins
 
+RUN apt-get -qq update && \
+    apt-get install -y --no-install-recommends git
+
 RUN useradd -d "$JENKINS_HOME" -m -s /bin/bash jenkins
 
 RUN mkdir -p /opt/jenkins && \
