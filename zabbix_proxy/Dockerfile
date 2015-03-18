@@ -9,14 +9,17 @@ RUN echo 'deb http://archive.ubuntu.com/ubuntu/ trusty multiverse' >> /etc/apt/s
     apt-get -y -q --no-install-recommends install \
         libsnmp-dev libsnmp-base snmp-mibs-downloader \
         zabbix-proxy-sqlite3 fping monit && \
-    apt-get -y autoclean autoremove && \
-    sed -i 's/START=.*$/START=yes/' /etc/default/zabbix-proxy && \
+    apt-get -y autoclean autoremove
+
+RUN sed -i 's/START=.*$/START=yes/' /etc/default/zabbix-proxy && \
     sed -i 's#DBName=.*$#DBName=/var/lib/zabbix/zabbix.sqlite3# \
             ; s#Server=.*$#Server=zabbix.otlabs.fr# \
-            ; s#Hostname=.*#Hostname=unconfigured_proxy# \
+            ; /^Hostname=/d \
             ; /^#/d; /^$/d ' /etc/zabbix/zabbix_proxy.conf && \
     echo 'StartDiscoverers=5' >> /etc/zabbix/zabbix_proxy.conf && \
-    /bin/echo -e 'DebugLevel=0\nExternalScripts=/etc/zabbix/scripts' >> /etc/zabbix/zabbix_proxy.conf && \
+    /bin/echo -e 'DebugLevel=0\nExternalScripts=/etc/zabbix/scripts\nTimeout=30\nCacheSize=32M\n' >> /etc/zabbix/zabbix_proxy.conf && \
+    /bin/echo -e 'HistoryCacheSize=32M\nHistoryTextCacheSize=32M\n' >> /etc/zabbix/zabbix_proxy.conf && \
+    /bin/echo -e 'StartDiscoverers=5\nStartPingers=5\nStartPollersUnreachable=5\nStartPollers=25\n' >> /etc/zabbix/zabbix_proxy.conf && \
     /bin/echo -e 'set init\nset daemon 10\nset logfile /var/log/monit.log\n'  > /etc/monitrc && \
     /bin/echo -e 'set httpd\n\tport 2812\n\tallow monitNak:NakMouwir0\n' >> /etc/monitrc && \
     /bin/echo -e 'check process zabbix-proxy with pidfile /var/run/zabbix/zabbix_proxy.pid' >> /etc/monitrc && \
