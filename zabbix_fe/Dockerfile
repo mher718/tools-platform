@@ -1,5 +1,5 @@
 FROM otechlabs/base
-# TARGET_IMAGE_NAME zabbix_frontend:0.5
+# TARGET_IMAGE_NAME zabbix_frontend:0.6
 
 MAINTAINER Oleksandr Bezpalko <obezpalko@gmail.com>
 
@@ -15,6 +15,7 @@ RUN echo > /etc/zabbix/httpd_zabbix.conf && \
     ln -sf /etc/zabbix/httpd_zabbix.conf /etc/apache2/sites-available/zabbix.conf && \
     a2dissite 000-default && \
     a2ensite zabbix
+RUN locale-gen fr_FR.UTF-8 ru_RU.UTF-8 uk_UA.UTF-8 en_US.UTF-8
 
 EXPOSE 80
 
