@@ -15,4 +15,8 @@
 #      REVISION:  ---
 #===============================================================================
 
+if [ -n "LICENSE" ] ; then
+	echo $LICENSE > /opt/artifactory/etc/artifactory.lic
+fi
+
 exec /opt/artifactory/bin/artifactory.sh
