@@ -15,7 +15,7 @@
 #      REVISION:  ---
 #===============================================================================
 
-if [ -n "LICENSE" ] ; then
+if [ -n "$LICENSE" ] ; then
 	echo $LICENSE > /opt/artifactory/etc/artifactory.lic
 fi
 
