@@ -3,7 +3,7 @@ FROM ubuntu:14.04
 ENV LC_ALL C
 ENV DEBIAN_FRONTEND noninteractive
 ENV APT_INSTALL apt-get install -y --no-install-recommends
-
+ENV TERM xterm
 ## Prevent initramfs updates from trying to run grub and lilo.
 ENV INITRD no
 RUN mkdir -p /etc/container_environment && \
