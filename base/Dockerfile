@@ -54,6 +54,6 @@ RUN $APT_INSTALL runit
 
 RUN apt-get autoremove -y && \
     apt-get clean && \
-    rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* /etc/dpkg/dpkg.cfg.d/02apt-speedup
+    rm -rf /tmp/* /var/tmp/* /etc/dpkg/dpkg.cfg.d/02apt-speedup
 
 CMD ["/sbin/my_init"]
