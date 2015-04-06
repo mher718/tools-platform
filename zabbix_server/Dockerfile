@@ -1,5 +1,5 @@
 FROM otechlabs/base
-# TARGET_IMAGE_NAME zabbix_server:0.5
+# TARGET_IMAGE_NAME zabbix_server:0.6
 
 MAINTAINER Oleksandr Bezpalko <obezpalko@gmail.com>
 
@@ -13,21 +13,11 @@ RUN echo 'deb http://archive.ubuntu.com/ubuntu/ trusty multiverse' >> /etc/apt/s
 
 RUN mkdir -p     /var/run/zabbix /etc/zabbix/zabbix_server.conf.d /etc/zabbix/scripts && \
     chown zabbix /var/run/zabbix /etc/zabbix/zabbix_server.conf.d /etc/zabbix/scripts && \
-    echo > /etc/monitrc && \
-    echo "set init" >> /etc/monitrc && \
-    echo "set daemon 15" >> /etc/monitrc && \
-    echo "set httpd" >> /etc/monitrc && \
-    echo "  port 2812" >> /etc/monitrc && \
-    echo "  allow monit:`pwgen 10 1`" >> /etc/monitrc && \
-    echo "check process zabbix-server with pidfile /var/run/zabbix/zabbix_server.pid" >> /etc/monitrc && \
-    echo '  start program = "/usr/sbin/service zabbix-server start"' >> /etc/monitrc && \
-    echo '  stop program = "/usr/sbin/service zabbix-server stop"' >> /etc/monitrc && \
-    chmod 0600 /etc/monitrc && \
-    sed -i 's/START=.*$/START=yes/' /etc/default/zabbix-server
+    sed -i '/^#/d; /^$/d; /^DB/d' /etc/zabbix/zabbix_server.conf
 
-RUN sed -i '/^#/d; /^$/d; /^DB/d' /etc/zabbix/zabbix_server.conf
+EXPOSE 10051
 
-EXPOSE 10051 2812
+COPY zabbix_server.py /etc/service/zabbix_server/run
+
 VOLUME ["/etc/zabbix/zabbix_server.conf", "/etc/zabbix/zabbix_server.conf.d", "/etc/zabbix/scripts"]
 
-CMD ["/usr/bin/monit", "-I", "-c/etc/monitrc" ]
