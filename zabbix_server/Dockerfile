@@ -5,7 +5,7 @@ MAINTAINER Oleksandr Bezpalko <obezpalko@gmail.com>
 
 # Update base images.
 RUN $APT_INSTALL libsnmp-dev libsnmp-base libsnmp-perl libnet-snmp-perl \
-    librrds-perl mysql-common passwd libjson-perl pwgen \
+    librrds-perl mysql-common passwd libjson-perl pwgen mysql-client \
     zabbix-server-mysql snmp-mibs-downloader monit fping && \
     apt-get -y autoclean autoremove 
 
@@ -20,5 +20,6 @@ RUN apt-get autoremove -y && \
 EXPOSE 10051
 
 COPY zabbix_server.py /etc/service/zabbix_server/run
+COPY db_init.sh /sbin/db_init.sh
 
 VOLUME ["/etc/zabbix/zabbix_server.conf", "/etc/zabbix/zabbix_server.conf.d", "/etc/zabbix/scripts"]

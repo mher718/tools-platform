@@ -9,7 +9,7 @@ from os.path import isfile
 
 TIMEOUT = 5
 PIDFILE = '/var/run/zabbix/zabbix_server.pid'
-CMD = '/usr/sbin/zabbix_server'
+CMD = '/sbin/db_init.sh && /usr/sbin/zabbix_server'
 
 system(CMD)
 sleep(TIMEOUT)
