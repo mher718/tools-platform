@@ -1,7 +1,9 @@
 FROM otechlabs/base
+# TARGET_IMAGE_NAME jenkins_base:1.0
 
-RUN apt-get -qq update && \
-    apt-get install -y --no-install-recommends python-software-properties 
+MAINTAINER Oleksandr Bezpalko <obezpalko@gmail.com>
+
+RUN $APT_INSTALL python-software-properties
 
 RUN mkdir /opt/jdk
 
@@ -36,5 +38,4 @@ RUN wget http://www.motorlogy.com/apache/maven/maven-3/3.1.1/binaries/apache-mav
 
 # Cleanup
 RUN apt-get -qq clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
+    rm -rf /tmp/* /var/tmp/*
