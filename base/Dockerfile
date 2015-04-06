@@ -16,6 +16,8 @@ RUN echo force-unsafe-io > /etc/dpkg/dpkg.cfg.d/docker-apt-speedup
 RUN sed -i 's/^#\s*\(deb.*universe\)$/\1/g' /etc/apt/sources.list && \
     sed -i 's/^#\s*\(deb.*multiverse\)$/\1/g' /etc/apt/sources.list
 
+RUN echo 'deb http://archive.ubuntu.com/ubuntu/ trusty multiverse' >> /etc/apt/sources.list
+
 RUN apt-get update -qq && \
     apt-get -yqq upgrade && \
     apt-get dist-upgrade -y --no-install-recommends
