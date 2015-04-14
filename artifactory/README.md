@@ -1,8 +1,8 @@
 ## Artifactory Info
 
-artifactory.version: 3.5.3
+artifactory.version: 3.6.0
 
-artifactory.revision: 30172
+artifactory.revision: 30178
 
 ## Volumes
 
