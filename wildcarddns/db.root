@@ -1,0 +1,5 @@
+$ORIGIN .
+$TTL 1D
+@    IN     SOA  @ none. ( 0 1D 1H 1W 3H );
+     IN     NS   127.0.0.1
+*    IN     A    172.17.42.1
