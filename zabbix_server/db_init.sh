@@ -7,10 +7,10 @@
 #       OPTIONS:  ---
 #  REQUIREMENTS:  ---
 #          BUGS:  ---
-#         NOTES:  ---
+#         NOTES:  if env MYSQL_ROOT_PASSWORD is defined - database will be created
 #        AUTHOR:  Aleksandr Bezpalko (a.bezpalko@external.oberthur.com)
 #       COMPANY:  Oberthur
-#       VERSION:  1.0
+#       VERSION:  1.1
 #       CREATED:  06.04.15 08:47:29 EDT
 #      REVISION:  ---
 #===============================================================================
@@ -33,6 +33,15 @@ if [ -z "$DBHost" -o -z "$DBUser" -o -z "$DBPassword" -o -z "$DBName" ] ; then
 	echo "database is not defined correctly in $CONFIG"
 	echo "DBHost, DBUser, DBPassword and DBName shall be defined"
 	exit
+fi
+
+
+if [ $MYSQL_ROOT_PASSWORD ] ; then
+	echo "Try to create database and grant permissions"
+	/usr/bin/mysql -h $DBHost -uroot -p$MYSQL_ROOT_PASSWORD \
+		--execute="create database $DBName character set utf8 collate utf8_bin;"
+	/usr/bin/mysql -h $DBHost -uroot -p$MYSQL_ROOT_PASSWORD \
+		--execute="grant all privileges on $DBName.* to $DBUser@% identified by '$DBPassword';"
 fi
 
 MYSQL="/usr/bin/mysql -h $DBHost -u$DBUser -p$DBPassword"
