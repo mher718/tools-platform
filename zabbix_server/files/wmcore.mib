@@ -1,0 +1,194 @@
+OTSBU-WM-CORE-MIB DEFINITIONS ::= BEGIN
+--
+-- MIB objects for WMCORE agent
+--
+IMPORTS
+  MODULE-IDENTITY, OBJECT-TYPE, NOTIFICATION-TYPE,
+  Integer32, enterprises
+    FROM SNMPv2-SMI
+  SnmpAdminString
+    FROM SNMP-FRAMEWORK-MIB
+  RowStatus, StorageType
+    FROM SNMPv2-TC
+  InetAddressType, InetAddress
+    FROM INET-ADDRESS-MIB;
+
+wmCoreMIB MODULE-IDENTITY
+  LAST-UPDATED "201503190000Z"
+  ORGANIZATION
+   "Oberthur Technologies"
+  CONTACT-INFO
+    "postal: Oberthur Technologies
+             Oberthur Technologies Headquarters
+             420 rue d Estienne d Orves
+             92700 Colombes
+             France
+     email:  http://www.obertur.com"
+  DESCRIPTION
+    "MIB module for SNMP trap events triggered by Wallet Manager Core"
+  REVISION "201503190000Z"
+  DESCRIPTION
+   "First draft for Wallet Manager Core MIB"
+ ::= { enterprises oberthur(30703) suboid(836685) 400 }
+
+-- Object assignments----------------------------------------------
+wmCoreObject                 OBJECT IDENTIFIER ::= { wmCoreMIB 1 }
+wmCoreTrap                   OBJECT IDENTIFIER ::= { wmCoreMIB 2 }
+-------------------------------------------------------------------
+-- Module Start/Stop (1/2)-----------------------------------------
+wmCoreStartedNotif NOTIFICATION-TYPE
+  STATUS current
+  DESCRIPTION
+  "Notifies the application state is 'started'"
+  ::= { wmCoreTrap 1 }
+
+wmCoreStoppedNotif NOTIFICATION-TYPE
+  STATUS current
+  DESCRIPTION
+  "Notifies the application state is 'stopped'"
+  ::= { wmCoreTrap 2 }
+-------------------------------------------------------------------
+-- Configuration loading failure/success (3/4) --------------------
+wmCoreConfig OBJECT-TYPE
+  SYNTAX SnmpAdminString
+  MAX-ACCESS read-write
+  STATUS current
+  DESCRIPTION
+  "Configuration name that is not loaded"
+  ::= { wmCoreObject 1 }
+
+wmCoreConfigLoadingAlert NOTIFICATION-TYPE
+  OBJECTS { wmCoreConfig }
+  STATUS current
+  DESCRIPTION
+  "Configuration loading failed"
+  ::= { wmCoreTrap 3 }
+
+wmCoreConfigLoadingClear NOTIFICATION-TYPE
+  OBJECTS { wmCoreConfig }
+  STATUS current
+  DESCRIPTION
+  "Configuration loading successful"
+  ::= { wmCoreTrap 4 }
+-------------------------------------------------------------------
+-- Database access failure/success (5/6) --------------------------
+wmCoreDBName OBJECT-TYPE
+  SYNTAX SnmpAdminString
+  MAX-ACCESS read-write
+  STATUS current
+  DESCRIPTION
+  "Database name"
+  ::= { wmCoreObject 2 }
+
+wmCoreDBDownAlert NOTIFICATION-TYPE
+  OBJECTS { wmCoreDBName }
+  STATUS current
+  DESCRIPTION
+  "Database access failed"
+  ::= { wmCoreTrap 5 }
+
+wmCoreDBUpClear NOTIFICATION-TYPE
+  OBJECTS { wmCoreDBName }
+  STATUS current
+  DESCRIPTION
+  "Database access successful"
+  ::= { wmCoreTrap 6 }
+-------------------------------------------------------------------
+-- External Call not responding 11/12 -----------------------------
+wmCoreClientURL OBJECT-TYPE
+  SYNTAX SnmpAdminString
+  MAX-ACCESS read-write
+  STATUS current
+  DESCRIPTION
+  "External Client Application URL"
+  ::= { wmCoreObject 3 }
+
+wmCoreExtCallNotRespAlert NOTIFICATION-TYPE
+  OBJECTS { wmCoreClientURL }
+  STATUS current
+  DESCRIPTION
+  "External Interface with Client Application not responding"
+  ::= { wmCoreTrap 11 }
+
+wmCoreExtCallRespClear NOTIFICATION-TYPE
+  OBJECTS { wmCoreClientURL }
+  STATUS current
+  DESCRIPTION
+  "External Interface with Client Application responding"
+  ::= { wmCoreTrap 12 }
+-------------------------------------------------------------------
+-- Session Saturation (41/42) -------------------------------------
+wmCoreSessionNum OBJECT-TYPE
+  SYNTAX Integer32
+  MAX-ACCESS read-write
+  STATUS current
+  DESCRIPTION
+  "Number of sessions"
+  ::= { wmCoreObject 4 }
+
+wmCoreSessionSaturationAlert NOTIFICATION-TYPE
+  OBJECTS { wmCoreSessionNum }
+  STATUS current
+  DESCRIPTION
+  "Session (thread) pool saturated"
+  ::= { wmCoreTrap 41 }
+
+wmCoreSessionNoSaturationClear NOTIFICATION-TYPE
+  OBJECTS { wmCoreSessionNum }
+  STATUS current
+  DESCRIPTION
+  "Session pool not saturated"
+  ::= { wmCoreTrap 42 }
+-------------------------------------------------------------------
+-- Mobile Requests 100 --------------------------------------------
+wmCoreMobileReqNum OBJECT-TYPE
+  SYNTAX Integer32
+  MAX-ACCESS read-write
+  STATUS current
+  DESCRIPTION
+  "Number of Mobile requests received in a perion of time"
+  ::= { wmCoreObject 5 }
+
+wmCoreMobileReqNotif NOTIFICATION-TYPE
+  OBJECTS { wmCoreMobileReqNum }
+  STATUS current
+  DESCRIPTION
+  "Number of Mobile requests received in a perion of time"
+  ::= { wmCoreTrap 100 }
+-------------------------------------------------------------------
+-- Unknown Mobile Requests 110 ------------------------------------
+wmCoreUnknownMobileReqNum OBJECT-TYPE
+  SYNTAX Integer32
+  MAX-ACCESS read-write
+  STATUS current
+  DESCRIPTION
+  "Number of rejected Mobile requests received in a perion of time
+   for unknown protocol or unknown wallet identifier"
+  ::= { wmCoreObject 6 }
+
+wmCoreUnknownMobileReqNotif NOTIFICATION-TYPE
+  OBJECTS { wmCoreUnknownMobileReqNum }
+  STATUS current
+  DESCRIPTION
+  "Number of rejected Mobile requests received in a perion of time
+   for unknown protocol or unknown wallet identifier"
+  ::= { wmCoreTrap 110 }
+-------------------------------------------------------------------
+-- Unknown Mobile Requests 111 ------------------------------------
+wmCoreWrongAuthMobileReqNum OBJECT-TYPE
+  SYNTAX Integer32
+  MAX-ACCESS read-write
+  STATUS current
+  DESCRIPTION
+  "Number of rejected Mobile requests received in a perion of time
+   for unknown protocol or unknown wallet identifier"
+  ::= { wmCoreObject 7 }
+
+wmCoreWrongAuthMobileReqNotif NOTIFICATION-TYPE
+  OBJECTS { wmCoreWrongAuthMobileReqNum }
+  STATUS current
+  DESCRIPTION
+  "Number of rejected Mobile requests received in a perion of time
+   for wrong authentication by the Wallet Owner"
+  ::= { wmCoreTrap 111 }
+END
