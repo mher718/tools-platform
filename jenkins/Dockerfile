@@ -7,7 +7,7 @@ ENV JENKINS_VERSION 1.602
 ENV JENKINS_USER jenkins
 ENV JENKINS_HOME /home/$JENKINS_USER
 
-RUN $APT_INSTALL git
+RUN $APT_INSTALL git openssh-client
 
 RUN useradd -d "$JENKINS_HOME" -m -s /bin/bash $JENKINS_USER
 
