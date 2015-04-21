@@ -29,7 +29,7 @@ RUN  sed -i 's/syslog_enable.*/syslog_enable = 0/; \
         s/^net_snmp_perl_enable.*/net_snmp_perl_enable = 1/; \
         s/^translate_log_trap_oid.*/translate_log_trap_oid = 2/' \
         /etc/snmp/snmptt.ini 
-RUN /bin/echo -e 'EVENT general .* "General event" Normal\nFORMAT ZBXTRAP $aA $ar $E $O ' > /etc/snmp/snmptt.conf
+RUN /bin/echo -e 'EVENT general .* "General event" Normal\nFORMAT ZBXTRAP $aA $E $O severity: $s $*' > /etc/snmp/snmptt.conf
 
 ENV MIBDIRS /usr/share/snmp/mibs
 ENV MIBS +ALL
