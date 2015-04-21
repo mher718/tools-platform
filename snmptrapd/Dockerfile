@@ -35,4 +35,4 @@ ENV MIBDIRS /usr/share/snmp/mibs
 ENV MIBS +ALL
 
 VOLUME ["/var/log/snmptt"]
-CMD ["/usr/sbin/snmptrapd","-f","-Lo","-n"]
+CMD ["/usr/sbin/snmptrapd","-f","-Lo","-n", "-M+ALL", "-m+ALL"]
