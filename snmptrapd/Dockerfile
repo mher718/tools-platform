@@ -1,5 +1,5 @@
 FROM otechlabs/base
-# TARGET_IMAGE_NAME snmptrapd:0.2
+# TARGET_IMAGE_NAME snmptrapd:0.3
 
 MAINTAINER Oleksandr Bezpalko <obezpalko@gmail.com>
 RUN apt-get update
@@ -14,26 +14,17 @@ RUN apt-get -y autoclean autoremove && \
 RUN curl -L http://sourceforge.net/projects/snmptt/files/latest/download | \
     tar xzf - -C /tmp && \
     cp /tmp/snmptt_*/snmptt /usr/sbin/ && chmod +x /usr/sbin/snmptt && \
-    cp /tmp/snmptt_*/snmptthandler /usr/sbin/ && chmod +x /usr/sbin/snmptthandler && \
-    cp /tmp/snmptt_*/snmptt.ini /etc/snmp/ && \
-    cp /tmp/snmptt_*/examples/snmptt.conf.generic /etc/snmp/snmptt.conf && \
     rm -rf /tmp/snmptt_*
 
 EXPOSE 162/udp
 
 COPY files/*.mib /usr/share/snmp/mibs/
-RUN /bin/echo -e 'authCommunity log,execute,net public\ntraphandle default /usr/sbin/snmptt --debug=2' >> /etc/snmp/snmptrapd.conf
-RUN  sed -i 's/syslog_enable.*/syslog_enable = 0/; \
-        s/^log_system_enable.*/log_system_enable = 1/; \
-        s/^unknown_trap_log_enable.*/unknown_trap_log_enable = 1/; \
-        s/^net_snmp_perl_enable.*/net_snmp_perl_enable = 1/; \
-        s/^translate_log_trap_oid.*/translate_log_trap_oid = 2/' \
-        /etc/snmp/snmptt.ini 
-RUN /bin/echo -e 'EVENT general .* "General event" Normal\nFORMAT ZBXTRAP $aA severity:$s $+*' > /etc/snmp/snmptt.conf
-# ToDo: move config files and mibs to application-configs
+RUN ln -sf /etc/zabbix/snmp/snmptrapd.conf /etc/snmp/snmptrapd.conf ; \
+    ln -sf /etc/zabbix/snmp/snmptt.conf /etc/snmp/snmptt.conf ; \
+    ln -sf /etc/zabbix/snmp/snmptt.ini /etc/snmp/snmptt.ini
 
-ENV MIBDIRS /usr/share/snmp/mibs
+ENV MIBDIRS /usr/share/snmp/mibs:/etc/zabbix/snmp/mibs
 ENV MIBS +ALL
 
-VOLUME ["/var/log/snmptt"]
-CMD ["/usr/sbin/snmptrapd","-f","-Lo","-n", "-M+ALL", "-m+ALL"]
+VOLUME ["/var/log/snmptt","/etc/zabbix"]
+CMD ["/usr/sbin/snmptrapd","-f","-Lo","-n", "-M+/etc/zabbix/snmp/mibs", "-m+ALL"]
