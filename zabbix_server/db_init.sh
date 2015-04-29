@@ -10,7 +10,7 @@
 #         NOTES:  if env MYSQL_ROOT_PASSWORD is defined - database will be created
 #        AUTHOR:  Aleksandr Bezpalko (a.bezpalko@external.oberthur.com)
 #       COMPANY:  Oberthur
-#       VERSION:  1.1
+#       VERSION:  1.2
 #       CREATED:  06.04.15 08:47:29 EDT
 #      REVISION:  ---
 #===============================================================================
@@ -41,7 +41,9 @@ if [ $MYSQL_ROOT_PASSWORD ] ; then
 	/usr/bin/mysql -h $DBHost -uroot -p$MYSQL_ROOT_PASSWORD \
 		--execute="create database $DBName character set utf8 collate utf8_bin;"
 	/usr/bin/mysql -h $DBHost -uroot -p$MYSQL_ROOT_PASSWORD \
-		--execute="grant all privileges on $DBName.* to $DBUser@% identified by '$DBPassword';"
+		--execute="grant all privileges on $DBName.* to $DBUser@'%' identified by '$DBPassword';"
+	/usr/bin/mysql -h $DBHost -uroot -p$MYSQL_ROOT_PASSWORD \
+		--execute="grant all privileges on $DBName.* to $DBUser@'localhost' identified by '$DBPassword';"
 fi
 
 MYSQL="/usr/bin/mysql -h $DBHost -u$DBUser -p$DBPassword"
