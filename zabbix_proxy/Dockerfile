@@ -1,5 +1,5 @@
 FROM otechlabs/base
-# TARGET_IMAGE_NAME zabbix_proxy:0.9
+# TARGET_IMAGE_NAME zabbix_proxy:1.0
 
 MAINTAINER Oleksandr Bezpalko <obezpalko@gmail.com>
 
@@ -25,4 +25,4 @@ RUN apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-EXPOSE 10051
+EXPOSE 20051
