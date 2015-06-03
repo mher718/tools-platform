@@ -19,7 +19,8 @@ RUN apt-get install -y --no-install-recommends \
     wget \
     unzip \
     lxc-docker \
-    git
+    git \
+    openssh-client
 
 RUN apt-get install -y --force-yes --no-install-recommends sbt
 
