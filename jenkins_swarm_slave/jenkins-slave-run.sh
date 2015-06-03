@@ -14,4 +14,4 @@ JENKINS_PASSWORD=${JENKINS_PASSWORD:-password}
 /usr/local/bin/wrapdocker &
 
 # start swarm slave
-java -jar /home/jenkins/swarm-client-1.22-jar-with-dependencies.jar -username $JENKINS_USERNAME -password $JENKINS_PASSWORD -fsroot "$JENKINS_HOME" -labels "$JENKINS_LABELS" -master http://$JENKINS_SERVER:$JENKINS_PORT $@
+java -jar /home/jenkins/swarm-client-1.22-jar-with-dependencies.jar -username $JENKINS_USERNAME -password $JENKINS_PASSWORD -fsroot "$JENKINS_HOME" -labels "$JENKINS_LABELS" -master $JENKINS_SERVER:$JENKINS_PORT $@
