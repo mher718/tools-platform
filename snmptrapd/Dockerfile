@@ -1,8 +1,9 @@
 FROM otechlabs/base
-# TARGET_IMAGE_NAME snmptrapd:0.3
+# TARGET_IMAGE_NAME snmptrapd:0.4
 
 MAINTAINER Oleksandr Bezpalko <obezpalko@gmail.com>
 # Update base images.
+RUN apt-get update
 RUN $APT_INSTALL --fix-missing  libsnmp-dev libsnmp-base libsnmp-perl libnet-snmp-perl \
     snmp-mibs-downloader snmpd snmptt libconfig-inifiles-perl
 
