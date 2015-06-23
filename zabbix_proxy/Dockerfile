@@ -19,7 +19,7 @@ RUN sed -i 's/START=.*$/START=yes/' /etc/default/zabbix-proxy && \
     /bin/echo -e 'StartTrappers=15\nStartHTTPPollers=5\nProxyOfflineBuffer=5\n' >> /etc/zabbix/zabbix_proxy.conf && \
     /bin/echo -e 'SNMPTrapperFile=/var/log/snmptt/snmptt.log\nStartSNMPTrapper=1\n' >> /etc/zabbix/zabbix_proxy.conf && \
     [ -d /etc/zabbix/scripts ] || mkdir /etc/zabbix/scripts && \
-    [ -d /etc/zabbix/scripts ] || mkdir -p /var/run/zabbix && chown zabbix /var/run/zabbix
+    [ -d /var/run/zabbix ] || mkdir -p /var/run/zabbix && chown zabbix /var/run/zabbix
 
 COPY zabbix_proxy_run /etc/service/zabbix_proxy/run
 
