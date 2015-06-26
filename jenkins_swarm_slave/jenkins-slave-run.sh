@@ -15,4 +15,4 @@ JENKINS_EXECUTORS=${JENKINS_EXECUTORS:-4}
 /usr/local/bin/wrapdocker &
 
 # start swarm slave
-java -jar /home/jenkins/swarm-client-1.22-jar-with-dependencies.jar -username $JENKINS_USERNAME -password $JENKINS_PASSWORD -fsroot "$JENKINS_HOME" -labels "$JENKINS_LABELS" -master $JENKINS_SERVER:$JENKINS_PORT -executors $JENKINS_EXECUTORS $@
+java -jar /home/jenkins/swarm-client-1.24-jar-with-dependencies.jar -username $JENKINS_USERNAME -password $JENKINS_PASSWORD -fsroot "$JENKINS_HOME" -labels "$JENKINS_LABELS" -master $JENKINS_SERVER:$JENKINS_PORT -executors $JENKINS_EXECUTORS $@
