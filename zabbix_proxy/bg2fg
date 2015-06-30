@@ -1,0 +1,44 @@
+#!/usr/bin/python3
+'''
+run background process in "foreground"
+location of pid file is required
+'''
+from os import system, kill
+from time import sleep
+from os.path import isfile
+import argparse
+
+parser = argparse.ArgumentParser(description='run background process in "foreground"')
+
+TIMEOUT = 5
+
+parser.add_argument("-p", "--pidfile", dest="pidfile",required=True,
+                  help="check process id from PID file", metavar="PIDFILE")
+parser.add_argument("-c", "--command", dest="command",required=True,
+                  help="run command", metavar="CMD")
+parser.add_argument("-t", "--timeout", type=int, dest="timeout",
+                  help="timeout seconds", metavar="SECONDS")
+
+args = parser.parse_args()
+
+if args.timeout:
+    TIMEOUT = args.timeout
+
+CMD = args.command
+PIDFILE = args.pidfile
+
+system(CMD)
+sleep(TIMEOUT)
+PID = int(open(PIDFILE, 'r').readlines()[0])
+
+while True:
+    try:
+        # check if process exists. unfortunately, zombie also responds
+        kill(PID, 0)
+    except ProcessLookupError:
+        exit(127)
+    if isfile(PIDFILE):
+        sleep(TIMEOUT)
+    else:
+        exit(255)
+
