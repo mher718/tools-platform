@@ -22,6 +22,7 @@ RUN sed -i 's/START=.*$/START=yes/' /etc/default/zabbix-proxy && \
     [ -d /var/run/zabbix ] || mkdir -p /var/run/zabbix && chown zabbix /var/run/zabbix
 
 COPY zabbix_proxy_run /etc/service/zabbix_proxy/run
+COPY bg2fg /usr/local/bin/bg2fg
 
 
 RUN apt-get -y autoclean autoremove && \
