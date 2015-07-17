@@ -16,5 +16,5 @@ COPY bg2fg /usr/local/bin/bg2fg
 RUN apt-get -y autoclean && apt-get -y autoremove && apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-EXPOSE 10051
+EXPOSE 20051
 VOLUME ["/var/log/snmptt", "/var/log/zabbix-proxy"]
