@@ -1,8 +1,7 @@
 FROM otechlabs/base
-# TARGET_IMAGE_NAME zabbix_java_gateway:0.1
+# TARGET_IMAGE_NAME zabbix_java_gateway:0.2
 
 MAINTAINER Oleksandr Bezpalko <obezpalko@gmail.com>
-#RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN apt-get update
 # Update base images.
 RUN $APT_INSTALL zabbix-java-gateway && \
@@ -11,9 +10,14 @@ RUN $APT_INSTALL zabbix-java-gateway && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN mkdir -p /var/run/zabbix /var/log/zabbix-java-gateway && \
-    chown zabbix /var/log/zabbix-java-gateway && \
-    ln -sf /etc/zabbix/service /etc/service/zabbix_java_gateway
+    chown zabbix /var/log/zabbix-java-gateway
 
-EXPOSE 10052
+EXPOSE 20052
 
-VOLUME ["/etc/zabbix"]
+CMD ["/usr/bin/java", "-Xmx256m", "-server", \
+    "-Dzabbix.pidFile=/var/run/zabbix/zabbix_java_gateway.pid", \
+    "-Dzabbix.listenPort=20052", \
+    "-Dzabbix.startPollers=10", \
+    "-Dlogback.configurationFile=/etc/zabbix/zabbix_java_gateway.logback.xml", \
+    "-Djava.library.path=/usr/lib/jni", \
+    "-jar", "/usr/sbin/zabbix-java-gateway.jar"]
