@@ -18,10 +18,6 @@ RUN apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN ln -sf /etc/zabbix/ldap.conf /etc/ldap/ldap.conf ; \
-    mkdir -p /etc/ssl/certs ; \
-    ln -sf /etc/zabbix/ldap.pem /etc/ssl/certs/ldap.pem
-
 COPY files/*.mib /usr/share/snmp/mibs/
 
 EXPOSE 80
