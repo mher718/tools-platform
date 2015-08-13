@@ -1,7 +1,7 @@
 FROM ubuntu:trusty
 # TARGET_IMAGE_NAME otechlabs/zabbix:common-2.4.6-1
 
-ENV LC_ALL=C EBIAN_FRONTEND=noninteractive APT_INSTALL="apt-get install -y --no-install-recommends" TERM=xterm INITRD=no
+ENV LANG=C LC_ALL=C DEBIAN_FRONTEND=noninteractive APT_INSTALL="apt-get install -y --no-install-recommends" TERM=xterm INITRD=no 
 RUN mkdir -p /etc/container_environment /etc/my_init.d && \
     echo -n no > /etc/container_environment/INITRD ; \
     echo force-unsafe-io > /etc/dpkg/dpkg.cfg.d/docker-apt-speedup && \
@@ -29,11 +29,18 @@ RUN apt-get update -qq && \
     apt-get dist-upgrade -y --no-install-recommends
 
 
-RUN $APT_INSTALL vim unzip wget curl psmisc less runit language-pack-en && \
-    locale-gen en_US.UTF-8 uk_UA.UTF-8 && \
+RUN $APT_INSTALL curl runit && \
+    locale-gen en_US.UTF-8 && \
     update-locale LANG=en_US.UTF-8 LC_CTYPE=en_US.UTF-8 && \
     echo -n en_US.UTF-8 > /etc/container_environment/LANG && \
     echo -n en_US.UTF-8 > /etc/container_environment/LC_CTYPE
+ENV LANG=en_US.UTF-8 LC_CTYPE=en_US.UTF-8 LC_ALL=en_US.UTF-8
+
+RUN apt-get purge -y rsyslog wget eject initramfs-tools file ntpdate anacron xkb-data whiptail lsb-release \
+    apt-utils xz-utils net-tools netbase netcat-openbsd linux-libc-dev udev fontconfig \
+    libx11-6 libudev1 module-init-tools libxau6 cpio resolvconf kmod libdbus-1-3 keyboard-configuration busybox-initramfs
+
+RUN apt-get -y autoremove ; apt-get -y autoclean
 
 COPY ./bin/my_init /sbin/my_init
 # COPY ./bin/setuser /sbin/setuser
