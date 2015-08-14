@@ -3,8 +3,11 @@ PROJECT=$(shell basename $(shell pwd))
 RUNNED=.runned
 IMAGE=.image
 .DEFAULT_GOAL=.image
-CONTAINER=$(shell sed '/TARGET_IMAGE_NAME/!d; s/^.*TARGET_IMAGE_NAME\s\s*\([^:]*\):.*$$/\1/' Dockerfile )
+CONTAINER=$(shell sed '/TARGET_IMAGE_NAME/!d; s/^.*TARGET_IMAGE_NAME\s\s*.*\/\(.*\):\([^-]*\)-.*$$/\1_\2/' Dockerfile )
 TARGET_IMAGE_NAME=$(shell sed '/TARGET_IMAGE_NAME/!d; s/^.*TARGET_IMAGE_NAME\s\s*//' Dockerfile )
+ifdef FULL
+	BUILD_ADD=--no-cache=true
+endif
 
 image: $(IMAGE)
 
@@ -12,7 +15,7 @@ Dockerfile:
 	@touch $@
 
 $(IMAGE): Dockerfile
-	@docker build --tag="$(TARGET_IMAGE_NAME)" ./
+	@docker build $(BUILD_ADD) --tag="$(TARGET_IMAGE_NAME)" ./
 	@echo $(TARGET_IMAGE_NAME)
 	@docker images -q $(CONTAINER) > $(IMAGE)
 

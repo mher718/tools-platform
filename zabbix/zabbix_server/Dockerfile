@@ -1,20 +1,22 @@
-FROM otechlabs/zabbix_common
-# TARGET_IMAGE_NAME zabbix_server:1.0
+FROM otechlabs/zabbix:common-2.4.6-1
+# TARGET_IMAGE_NAME otechlabs/zabbix:server-2.4.6-1
 
 MAINTAINER Oleksandr Bezpalko <obezpalko@gmail.com>
 RUN apt-get update
 # Update base images.
 RUN $APT_INSTALL libsnmp-dev libsnmp-base libsnmp-perl libnet-snmp-perl \
-    librrds-perl mysql-common passwd libjson-perl pwgen mysql-client \
-    zabbix-server-mysql snmp-mibs-downloader fping && \
-    apt-get -y autoclean autoremove
+    librrds-perl mysql-common passwd libjson-perl pwgen mysql-client
+RUN $APT_INSTALL snmp-mibs-downloader fping
+RUN $APT_INSTALL zabbix-server-mysql
 
 RUN mkdir -p /var/run/zabbix /etc/zabbix/zabbix_server.conf.d /etc/zabbix/scripts /etc/service/zabbix_server && \
     chown zabbix /var/run/zabbix /etc/zabbix/zabbix_server.conf.d /etc/zabbix/scripts && \
     sed -i '/^#/d; /^$/d; /^DB/d' /etc/zabbix/zabbix_server.conf
 
-RUN apt-get autoremove -y && \
-    apt-get clean && \
+
+RUN apt-get -y autoremove && \
+    apt-get -y autoclean && \
+    apt-get -y clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 EXPOSE 10051

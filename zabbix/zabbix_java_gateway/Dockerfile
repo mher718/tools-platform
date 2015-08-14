@@ -1,11 +1,11 @@
-FROM otechlabs/base
-# TARGET_IMAGE_NAME zabbix_java_gateway:0.2
+FROM otechlabs/zabbix:common-2.4.6-1
+# TARGET_IMAGE_NAME otechlabs/zabbix:java_gateway-2.4.6-1
 
 MAINTAINER Oleksandr Bezpalko <obezpalko@gmail.com>
-RUN apt-get update
 # Update base images.
-RUN $APT_INSTALL zabbix-java-gateway && \
-    apt-get -y autoclean autoremove && \
+# RUN apt-get update
+RUN $APT_INSTALL zabbix-java-gateway
+RUN apt-get -y autoclean autoremove && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 

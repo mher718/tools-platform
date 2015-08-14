@@ -24,12 +24,12 @@ RUN dpkg-divert --local --rename --add /sbin/initctl && \
     ln -sf /bin/true /sbin/initctl && \
     ln -sf /bin/true /usr/bin/ischroot
 
-RUN apt-get update -qq && \
+RUN apt-get update && \
     apt-get -yqq upgrade && \
     apt-get dist-upgrade -y --no-install-recommends
 
 
-RUN $APT_INSTALL curl runit && \
+RUN $APT_INSTALL runit && \
     locale-gen en_US.UTF-8 && \
     update-locale LANG=en_US.UTF-8 LC_CTYPE=en_US.UTF-8 && \
     echo -n en_US.UTF-8 > /etc/container_environment/LANG && \
@@ -40,7 +40,7 @@ RUN apt-get purge -y rsyslog wget eject initramfs-tools file ntpdate anacron xkb
     apt-utils xz-utils net-tools netbase netcat-openbsd linux-libc-dev udev fontconfig \
     libx11-6 libudev1 module-init-tools libxau6 cpio resolvconf kmod libdbus-1-3 keyboard-configuration busybox-initramfs
 
-RUN apt-get -y autoremove ; apt-get -y autoclean
+#RUN apt-get -y autoremove ; apt-get -y autoclean
 
 COPY ./bin/my_init /sbin/my_init
 # COPY ./bin/setuser /sbin/setuser
